@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Admin</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -90,7 +90,7 @@
                                         </div>
 
                                         <div class="pt-3 sm:pt-5 lg:pt-0">
-                                            <h2 class="text-xl font-semibold text-black dark:text-white">Documentation</h2>
+                                            <h2 class="text-xl font-semibold text-black dark:text-white">Admin</h2>
 
                                             <p class="mt-4 text-sm/relaxed">
                                                 Laravel has wonderful documentation covering every aspect of the framework. Whether you are a newcomer or have prior experience with Laravel, we recommend reading our documentation from beginning to end.
@@ -130,7 +130,7 @@
                                 </div>
 
                                 <div class="pt-3 sm:pt-5">
-                                    <h2 class="text-xl font-semibold text-black dark:text-white">Laravel News</h2>
+                                    <h2 class="text-xl font-semibold text-black dark:text-white">Laravel -- News</h2>
 
                                     <p class="mt-4 text-sm/relaxed">
                                         Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.
