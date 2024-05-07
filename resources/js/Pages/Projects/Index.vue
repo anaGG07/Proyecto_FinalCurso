@@ -54,7 +54,7 @@ const deleteProject = id => {
                                     </tr>
                                 </thead>
                                 <tbody class="text-sm divide-y divide-gray-100" v-if="projects.total > 0">
-                                    <template v-for="project in projects.data">
+                                    <template v-for="project in projects.data" :key="project.id">
                                         <tr>
                                             <td class="border px-4">{{ project.name }}</td>
                                             <td class="border px-4">{{ project.user.name }}</td>
