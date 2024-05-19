@@ -18,7 +18,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    id:{
+    id: {
         type: Number,
         required: true,
     },
@@ -76,32 +76,61 @@ function sendCookieDecision(accepted) {
 </script>
 
 <template>
+
     <Head title="Welcome" />
+
     <div class="flex flex-col min-h-screen bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
+        <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
+        <Link v-if="$page.props.auth.user" :href="route('guests.index')"
+            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+        Guests
+        </Link>
+
+        <template v-else>
+            <Link :href="route('login')"
+                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+            Log in
+            </Link>
+
+            <Link v-if="canRegister" :href="route('register')"
+                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+            Register
+            </Link>
+        </template>
+    </nav>
         <main class="mt-6 flex flex-grow items-center justify-center">
             <div v-if="!showCookieBanner" class="flex flex-col items-center justify-center w-full">
                 <div class="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-lg text-center max-w-lg mx-auto">
                     <h2 class="text-lg font-semibold mb-4 text-black dark:text-white">Descripción del Proyecto</h2>
                     <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">
-                        Este proyecto tiene como objetivo demostrar cómo los usuarios pueden ser vulnerables a prácticas de
+                        Este proyecto tiene como objetivo demostrar cómo los usuarios pueden ser vulnerables a prácticas
+                        de
                         ingeniería social a través del uso de tecnologías cotidianas como códigos QR y enlaces en redes
-                        sociales. Desarrollaremos un sistema integrado que incluye la creación de un código QR y un enlace
-                        asociado, ambos dirigidos a una web propia. Esta aplicación web recolectará datos no sensibles de los
-                        usuarios y servirá para educarlos sobre la importancia de leer y entender los términos y condiciones
+                        sociales. Desarrollaremos un sistema integrado que incluye la creación de un código QR y un
+                        enlace
+                        asociado, ambos dirigidos a una web propia. Esta aplicación web recolectará datos no sensibles
+                        de
+                        los
+                        usuarios y servirá para educarlos sobre la importancia de leer y entender los términos y
+                        condiciones
                         antes de interactuar con contenido digital.
                     </p>
                     <h3 class="text-md font-semibold mb-4 text-black dark:text-white">Intenciones y Transparencia</h3>
                     <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">
                         La información sobre el propósito de la recolección de datos estará disponible de manera clara y
-                        accesible en el sitio web, incluida en las secciones de cookies, términos y condiciones, y otros lugares
-                        relevantes. Esto tiene como objetivo subrayar la importancia de que los usuarios presten atención y lean
+                        accesible en el sitio web, incluida en las secciones de cookies, términos y condiciones, y otros
+                        lugares
+                        relevantes. Esto tiene como objetivo subrayar la importancia de que los usuarios presten
+                        atención y
+                        lean
                         detenidamente la información presentada antes de interactuar con elementos digitales.
                     </p>
                 </div>
             </div>
         </main>
 
-        <footer class="py-2 text-center text-sm text-black dark:text-white/70" style="font-family: 'Arial', sans-serif;">
+        <footer class="py-2 text-center text-sm text-black dark:text-white/70"
+            style="font-family: 'Arial', sans-serif;">
             <p class="text-lg font-bold">Análisis de Vulnerabilidades Humanas en Seguridad Cibernética</p>
             <p class="text-xs">&copy; All rights reserved</p>
         </footer>
@@ -111,16 +140,21 @@ function sendCookieDecision(accepted) {
         <div class="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-lg text-center max-w-lg mx-auto">
             <h2 class="text-lg font-semibold mb-4 text-black dark:text-white">Aviso de Cookies</h2>
             <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">
-                Usamos cookies para mejorar su experiencia en nuestro sitio web. Este proyecto tiene como objetivo demostrar
-                cómo los usuarios pueden ser vulnerables a prácticas de ingeniería social a través del uso de tecnologías
+                Usamos cookies para mejorar su experiencia en nuestro sitio web. Este proyecto tiene como objetivo
+                demostrar
+                cómo los usuarios pueden ser vulnerables a prácticas de ingeniería social a través del uso de
+                tecnologías
                 cotidianas como códigos QR y enlaces en redes sociales. Al continuar navegando, aceptas nuestro uso de
-                cookies. Analizaremos tu comportamiento para educarte sobre la importancia de leer y entender los términos y
+                cookies. Analizaremos tu comportamiento para educarte sobre la importancia de leer y entender los
+                términos y
                 condiciones antes de interactuar con contenido digital. Puedes aceptar o rechazar las cookies según tu
                 preferencia. Al aceptar o rechazar las cookies, se registrará información para este propósito educativo.
             </p>
             <div class="flex justify-center space-x-4">
-                <button @click="acceptCookies" class="text-white px-4 py-2 rounded-md  hover:bg-red-700">Aceptar</button>
-                <button @click="rejectCookies" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">Rechazar</button>
+                <button @click="acceptCookies"
+                    class="text-white px-4 py-2 rounded-md  hover:bg-red-700">Aceptar</button>
+                <button @click="rejectCookies"
+                    class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">Rechazar</button>
             </div>
         </div>
     </div>

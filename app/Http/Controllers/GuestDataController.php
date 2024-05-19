@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\GuestData; 
+use App\Models\GuestData;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Route;
 
 class GuestDataController extends Controller
 {
@@ -18,7 +19,7 @@ class GuestDataController extends Controller
         return inertia('Guests/Index', [
             'guests' => $guests
         ]);
-           
+
     }
     public function store(Request $request)
     {
@@ -43,11 +44,14 @@ class GuestDataController extends Controller
             'referrer' => $referrer,
             'language' => $language,
             'id' => $userData->id,
-        ]);
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register')
+
+            ]);
     }
     public function storeCookieDecision(Request $request)
     {
-        
+
         $validated = $request->validate([
             'ipAddress' => 'required|string',
             'userAgent' => 'required|string',
