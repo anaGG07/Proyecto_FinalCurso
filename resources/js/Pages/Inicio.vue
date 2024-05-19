@@ -31,7 +31,11 @@ const props = defineProps({
     language: {
         type: String,
         required: false,
-    },
+    }, 
+    decision: {
+        type: String,
+        required: false,
+    }, 
 });
 
 function handleImageError() {
@@ -78,6 +82,7 @@ function handleImageError() {
                                                 <li>User Agent: {{ userAgent }}</li>
                                                 <li>Referrer: {{ referrer }}</li>
                                                 <li>Idioma: {{ language }}</li>
+                                                <li>Cookies: {{ cookies }}</li>
                                             </ul>
                                         </p>
                                     </div>

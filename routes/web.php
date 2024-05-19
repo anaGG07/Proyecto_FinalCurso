@@ -30,16 +30,17 @@ Route::middleware([
 
 
 // RUTA SIN AUTENTIFICAR
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        //'canLogin' => Route::has('login'),
-   //     'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         //'canLogin' => Route::has('login'),
+//    //     'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 
-Route::get('/inicio', [GuestDataController::class, 'store']);
+Route::get('/', [GuestDataController::class, 'store']);
+Route::post('/api/cookies', [GuestDataController::class, 'storeCookieDecision']);
 //Route::get('/inicio', [ProjectController::class, 'inicio'])->name('project.inicio');
 
 

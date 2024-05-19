@@ -48,6 +48,7 @@ const formatDate = (date) => {
                                         <th class="px-4 py-2">Agente</th>
                                         <th class="px-4 py-2">Ref</th>
                                         <th class="px-4 py-2">Idioma</th>
+                                        <th class="px-4 py-2">Cookies</th>
                                         <th class="px-4 py-2">Hora de conexion</th>
                                         <!-- <th class="px-4 py-2">Acciones</th> -->
                                     </tr>
@@ -59,7 +60,8 @@ const formatDate = (date) => {
                                             <td class="border px-4">{{ guest.user_agent }}</td>
                                             <td class="border px-4">{{ guest.referrer }}</td>
                                             <td class="border px-4">{{ guest.language }}</td>
-                                            <td class="border px-4">{{ guest.created_at }}</td>
+                                            <td class="border px-4">{{ guest.cookies }}</td>
+                                            <td class="border px-4">{{ guest.fecha_alta  }}</td>
                                             <!-- <td class="border px-4 py-4" style="width: 300px">
                                                 <Link
                                                     :href="route('guests.edit', guest.id)"

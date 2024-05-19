@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('user_agent')->nullable();
             $table->string('referrer')->nullable();
             $table->string('language')->nullable();
+            $table->string('cookies')->nullable();
             $table->timestamps();
         });
     }

@@ -1,8 +1,9 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import axios from 'axios';
 
-defineProps({
+const props = defineProps({
     canLogin: {
         type: Boolean,
     },
@@ -17,6 +18,26 @@ defineProps({
         type: String,
         required: true,
     },
+    id:{
+        type: Number,
+        required: true,
+    },
+    ipAddress: {
+        type: String,
+        required: true,
+    },
+    userAgent: {
+        type: String,
+        required: true,
+    },
+    referrer: {
+        type: String,
+        required: false,
+    },
+    language: {
+        type: String,
+        required: false,
+    },
 });
 
 const showCookieBanner = ref(true);
@@ -29,16 +50,34 @@ function handleImageError() {
 }
 
 function acceptCookies() {
+    sendCookieDecision(true);
     showCookieBanner.value = false;
 }
 
 function rejectCookies() {
+    sendCookieDecision(false);
     showCookieBanner.value = false;
+}
+
+function sendCookieDecision(accepted) {    
+    axios.post('/api/cookies', {
+        id: props.id,
+        cookies: accepted ? 'S' : 'N',
+        ipAddress: props.ipAddress,
+        userAgent: props.userAgent,
+        referrer: props.referrer || '',
+        language: props.language || '',
+    }).then(response => {
+        console.log('Decisión de Cookies enviada:', response.data);
+    }).catch(error => {
+        console.error('Error enviando la decisión de cookies:', error);
+    });
 }
 </script>
 
 <template>
     <Head title="Welcome" />
+    <div>Tu IP: {{ ipAddress }}</div>
     <div class="flex flex-col min-h-screen bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
         <main class="mt-6 flex flex-grow items-center justify-center">
             <div v-if="!showCookieBanner" class="flex flex-col items-center justify-center w-full">
@@ -81,8 +120,8 @@ function rejectCookies() {
                 preferencia. Al aceptar o rechazar las cookies, se registrará información para este propósito educativo.
             </p>
             <div class="flex justify-center space-x-4">
-                <button @click="rejectCookies" class="text-white px-4 py-2 rounded-md  hover:bg-red-700">Aceptar</button>
-                <button @click="acceptCookies" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">Rechazar</button>
+                <button @click="acceptCookies" class="text-white px-4 py-2 rounded-md  hover:bg-red-700">Aceptar</button>
+                <button @click="rejectCookies" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">Rechazar</button>
             </div>
         </div>
     </div>

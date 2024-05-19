@@ -13,6 +13,6 @@ class GuestData extends Model
         'user_agent',
         'referrer',
         'language',
-        
+        'cookies',
     ];
 }
