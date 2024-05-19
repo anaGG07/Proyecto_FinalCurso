@@ -45,9 +45,9 @@ Route::post('/api/cookies', [GuestDataController::class, 'storeCookieDecision'])
 
 
 // RUTA DE EJEMPLO SIN AUTENTIFICAR
-// Route::get('/inicio', function () {
-//     return Inertia::render('Inicio');
-// });
+ Route::get('/inicio', function () {
+     return Inertia::render('Inicio');
+ });
 
 
 // CRUD
