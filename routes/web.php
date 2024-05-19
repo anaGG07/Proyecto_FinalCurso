@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\GuestDataController;
 
 // (autentificada)
 Route::middleware([
@@ -38,13 +39,14 @@ Route::get('/', function () {
     ]);
 });
 
-
+Route::get('/inicio', [GuestDataController::class, 'store']);
+//Route::get('/inicio', [ProjectController::class, 'inicio'])->name('project.inicio');
 
 
 // RUTA DE EJEMPLO SIN AUTENTIFICAR
-Route::get('/inicio', function () {
-    return Inertia::render('Inicio');
-});
+// Route::get('/inicio', function () {
+//     return Inertia::render('Inicio');
+// });
 
 
 // CRUD
@@ -56,4 +58,5 @@ Route::middleware([
     // ...
 
     Route::resource('projects', ProjectController::class);
+    Route::resource('guests',   GuestDataController::class);
 });
