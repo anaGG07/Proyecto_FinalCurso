@@ -6,20 +6,23 @@ use Illuminate\Http\Request;
 use Inertia\Response;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
-
+use Inertia\Inertia;
 class GuestDataController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $guests = GuestData::all()->map(function ($guest) {
+        $perPage = $request->input('perPage', 10);
+
+        $guests = GuestData::orderBy('created_at', 'desc')->paginate($perPage);
+
+        $guests->getCollection()->transform(function ($guest) {
             $guest->fecha_alta = Carbon::parse($guest->created_at)->format('d/m/Y H:i:s');
             return $guest;
         });
 
-        return inertia('Guests/Index', [
+        return Inertia::render('Guests/Index', [
             'guests' => $guests
         ]);
-
     }
     public function store(Request $request)
     {
@@ -28,8 +31,9 @@ class GuestDataController extends Controller
         $referrer = $request->headers->get('referer');
         $language = $request->getPreferredLanguage();
         $decision = $request->decision;
-
-        dd($userAgent);
+        
+        $plataforma = $this->isMobile($userAgent) ? 'M' : 'C'; // 'M' para móvil, 'C' para ordenador
+        $navegador = $this->getBrowser($userAgent);
 
         // Guardar datos en la base de datos
         $userData = GuestData::create([
@@ -38,8 +42,10 @@ class GuestDataController extends Controller
             'referrer' => $referrer,
             'language' => $language,
             'decision' => $decision,
+            'navegador' => $navegador,
+            'plataforma' => $plataforma,
         ]);
-        // Envía la información a Vue directamente
+        // Enviar la información a Vue directamente
         return inertia('Welcome', [
             'ipAddress' => $ipAddress,
             'userAgent' => $userAgent,
@@ -75,5 +81,35 @@ class GuestDataController extends Controller
             ]);
 
         return response()->json(['message' => 'Cookie decision recorded successfully.']);
+    }
+    private function getBrowser($userAgent)
+    {
+        if (strpos($userAgent, 'Firefox') !== false) {
+            return 'Firefox';
+        } elseif (strpos($userAgent, 'OPR') !== false || strpos($userAgent, 'OPR') !== false) {
+            return 'Opera';
+        } elseif (strpos($userAgent, 'Edg') !== false) {
+            return 'Edge';
+        } elseif (strpos($userAgent, 'Chrome') !== false) {
+            return 'Chrome';
+        } elseif (strpos($userAgent, 'Safari') !== false) {
+            return 'Safari';
+        } elseif (strpos($userAgent, 'MSIE') !== false || strpos($userAgent, 'Trident') !== false) {
+            return 'IE';
+        }
+
+        return 'Other';
+    }
+    private function isMobile($userAgent)
+    {
+        $mobileAgents = ['Mobile', 'Android', 'Silk/', 'Kindle', 'BlackBerry', 'Opera Mini', 'Opera Mobi'];
+
+        foreach ($mobileAgents as $device) {
+            if (strpos($userAgent, $device) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

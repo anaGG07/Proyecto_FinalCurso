@@ -6,7 +6,6 @@ export default {
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { Inertia } from '@inertiajs/inertia';
 import { Link } from '@inertiajs/inertia-vue3';
 
 defineProps({
@@ -15,16 +14,6 @@ defineProps({
         required: true,
     },
 })
-
-const deleteguest = id => {
-    if (confirm('¿Estás seguro de querer eliminar este proyecto?')) {
-        Inertia.delete(route('guests.destroy', id))
-    }
-}
-
-const formatDate = (date) => {
-  return moment(date).format('DDMMYYYY HHmmss');
-}
 </script>
 
 <template>
@@ -39,13 +28,14 @@ const formatDate = (date) => {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-
                         <div class="mt-4">
                             <table class="table-auto w-full">
-                                <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                                <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">                                    
                                     <tr>
                                         <th class="px-4 py-2">IP</th>
-                                        <th class="px-4 py-2">Agente</th>
+                                        <!-- <th class="px-4 py-2">Agente</th> -->
+                                        <th class="px-4 py-2">Navegador</th>
+                                        <th class="px-4 py-2">Plataforma</th>
                                         <th class="px-4 py-2">Ref</th>
                                         <th class="px-4 py-2">Idioma</th>
                                         <th class="px-4 py-2">Cookies</th>
@@ -53,49 +43,28 @@ const formatDate = (date) => {
                                         <!-- <th class="px-4 py-2">Acciones</th> -->
                                     </tr>
                                 </thead>
-                                <tbody class="text-sm divide-y divide-gray-100" v-if="guests">
-                                    <template v-for="guest in guests" :key="guest.id">
+                                <tbody class="text-sm divide-y divide-gray-100" v-if="guests.data && guests.data.length">
+                                    <template v-for="guest in guests.data" :key="guest.id">
                                         <tr>
                                             <td class="border px-4">{{ guest.ip_address }}</td>
-                                            <td class="border px-4">{{ guest.user_agent }}</td>
+                                            <!-- <td class="border px-4">{{ guest.user_agent }}</td> -->
+                                            <td class="border px-4">{{ guest.navegador }}</td>
+                                            <td class="border px-4">{{ guest.plataforma === 'C' ? 'Ordenador' : 'Movil' }}</td>
                                             <td class="border px-4">{{ guest.referrer }}</td>
                                             <td class="border px-4">{{ guest.language }}</td>
                                             <td class="border px-4">{{ guest.cookies }}</td>
-                                            <td class="border px-4">{{ guest.fecha_alta  }}</td>
-                                            <!-- <td class="border px-4 py-4" style="width: 300px">
-                                                <Link
-                                                    :href="route('guests.edit', guest.id)"
-                                                    class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
-                                                >
-                                                    Editar
-                                                </Link>
-                                                <Link
-                                                    :href="route('guests.show', guest.id)"
-                                                    class="ml-2 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
-                                                >
-                                                    Ver
-                                                </Link>
-                                                <Link
-                                                    class="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                                    @click="deleteguest(guest.id)"
-                                                >
-                                                    Eliminar
-                                                </Link>
-                                            </td> -->
+                                            <td class="border px-4">{{ guest.fecha_alta }}</td>
                                         </tr>
                                     </template>
                                 </tbody>
                                 <tbody v-else>
                                     <tr class="bg-red-400 text-white text-center">
-                                        <td colspan="4" class="border px-4 py-2">No hay Invitados para mostrar</td>
+                                        <td colspan="7" class="border px-4 py-2">No hay Invitados para mostrar</td>
                                     </tr>
                                 </tbody>
-                                <!-- <tfoot
-                                    v-if="guests.last_page > 1"
-                                    class="text-xs font-semibold uppercase text-gray-400 bg-gray-50"
-                                >
+                                <tfoot v-if="guests.links" class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                                     <tr>
-                                        <td colspan="4" class="border px-4 py-4 text-right">
+                                        <td colspan="7" class="border px-4 py-4 text-right">
                                             <Link
                                                 v-if="guests.current_page > 1"
                                                 :href="guests.prev_page_url"
@@ -112,7 +81,7 @@ const formatDate = (date) => {
                                             </Link>
                                         </td>
                                     </tr>
-                                </tfoot> -->
+                                </tfoot>
                             </table>
                         </div>
                     </div>

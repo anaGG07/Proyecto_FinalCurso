@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\GuestDataController;
-
+ 
 // (autentificada)
 Route::middleware([
     'auth:sanctum',

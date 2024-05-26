@@ -14,5 +14,7 @@ class GuestData extends Model
         'referrer',
         'language',
         'cookies',
+        'plataforma',
+        'navegador',
     ];
 }
