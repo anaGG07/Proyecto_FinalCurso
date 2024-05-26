@@ -80,7 +80,7 @@ function sendCookieDecision(accepted) {
     <Head title="Welcome" />
 
     <div class="flex flex-col min-h-screen bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
-        <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
+        <!-- <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
         <Link v-if="$page.props.auth.user" :href="route('guests.index')"
             class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
         Guests
@@ -97,7 +97,7 @@ function sendCookieDecision(accepted) {
             Register
             </Link>
         </template>
-    </nav>
+    </nav> -->
         <main class="mt-6 flex flex-grow items-center justify-center">
             <div v-if="!showCookieBanner" class="flex flex-col items-center justify-center w-full">
                 <div class="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-lg text-center max-w-lg mx-auto">

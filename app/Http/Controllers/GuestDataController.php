@@ -29,6 +29,8 @@ class GuestDataController extends Controller
         $language = $request->getPreferredLanguage();
         $decision = $request->decision;
 
+        dd($userAgent);
+
         // Guardar datos en la base de datos
         $userData = GuestData::create([
             'ip_address' => $ipAddress,
