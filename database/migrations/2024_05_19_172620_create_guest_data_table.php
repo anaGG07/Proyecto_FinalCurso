@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('referrer')->nullable();
             $table->string('language')->nullable();
             $table->string('cookies')->nullable();
+            $table->string('plataforma')->nullable();
+            $table->string('navegador')->nullable();
             $table->timestamps();
         });
     }

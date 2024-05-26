@@ -3,63 +3,27 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\GuestDataController;
- 
-// (autentificada)
+
+// RUTAS SIN AUTENTIFICAR
+Route::get('/', [GuestDataController::class, 'store'])->name('start');
+Route::post('/api/cookies', [GuestDataController::class, 'storeCookieDecision']);
+Route::post('/api/store-form', [GuestDataController::class, 'storeForm']);
+Route::get('/inicio', function () {
+    return Inertia::render('Inicio');
+});
+
+// RUTAS AUTENTICADAS
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-// RUTA DE EJEMPLO
-    Route::get('/prueba', function () {
-        return Inertia::render('Prueba');
-    })->name('prueba');
-
-
-    Route::get('/pruebaAna', function () {
-        return Inertia::render('PruebaAna');
-    })->name('pruebaAna');
-
-
     Route::get('/dashboard', function () {
         return Inertia::render('Index');
     })->name('dashboard');
-});
-
-
-// RUTA SIN AUTENTIFICAR
-//  Route::get('/', function () {
-//      return Inertia::render('Welcome', [
-//          'canLogin' => Route::has('login'),
-//          'canRegister' => Route::has('register'),
-//          'laravelVersion' => Application::VERSION,
-//          'phpVersion' => PHP_VERSION,
-//      ]);
-//  });
-
-Route::get('/', [GuestDataController::class, 'store']);
-Route::post('/api/cookies', [GuestDataController::class, 'storeCookieDecision']);
-//Route::get('/guests', [GuestDataController::class, 'index'])->name('guests');
-
-
-// RUTA DE EJEMPLO SIN AUTENTIFICAR
- Route::get('/inicio', function () {
-     return Inertia::render('Inicio');
- });
-
-
-// CRUD
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    // ...
-
-    Route::resource('projects', ProjectController::class);
-    Route::resource('guests',   GuestDataController::class);
+    Route::resource('guests', GuestDataController::class);
+    Route::get('/datos', [GuestDataController::class, 'index'])->name('datos');
 });
 
 
