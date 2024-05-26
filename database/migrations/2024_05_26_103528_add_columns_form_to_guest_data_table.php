@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('name')->nullable();
             $table->integer('age')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
         });
     }
 
@@ -29,6 +30,8 @@ return new class extends Migration
             $table->dropColumn('phone');
             $table->dropColumn('name');
             $table->dropColumn('age');
+            $table->dropColumn('email_verified_at');
         });
     }
 };
+

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\GuestData;
+use App\Notifications\VerifyEmail;
 use Illuminate\Http\Request;
-use Inertia\Response;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 use Detection\MobileDetect;
 
 class GuestDataController extends Controller
@@ -41,13 +43,13 @@ class GuestDataController extends Controller
         $referrer = $request->headers->get('referer');
         $language = $request->getPreferredLanguage();
         $decision = $request->decision;
-        
+
         $detect = new MobileDetect;
 
-        $plataforma = $detect->isMobile() ? 'M' : 'C'; // 'M' para móvil, 'C' para ordenador                
+        $plataforma = $detect->isMobile() ? 'M' : 'C'; // 'M' para móvil, 'C' para ordenador
         $navegador = $this->getBrowser($userAgent);
         $so = ($detect->isMobile()) ? ($detect->isiOS()) ? 'iOS' : 'Android' : $this->getOS($userAgent);
-   
+
         // Guardar datos en la base de datos
         $userData = GuestData::create([
             'ip_address' => $ipAddress,
@@ -102,7 +104,7 @@ class GuestDataController extends Controller
             'id' => 'required|integer',
         ]);
 
-        GuestData::updateOrCreate(
+        $guestData = GuestData::updateOrCreate(
             [
                 'id' => $validated['id']
             ],
@@ -115,7 +117,30 @@ class GuestDataController extends Controller
             ]
         );
 
+        if ($guestData->email) {
+            $verificationUrl = route('verify.email', ['token' => Str::random(32), 'email' => $guestData->email]);
+            Notification::route('mail', $guestData->email)->notify(new VerifyEmail($verificationUrl));
+        }
+
         return response()->json(['message' => 'Form data recorded successfully.']);
+    }
+
+    public function verifyEmail(Request $request)
+    {
+        $email = $request->query('email');
+        $token = $request->query('token');
+
+        $guestData = GuestData::where('email', $email)->first();
+
+        if ($guestData) {
+            // Marca el correo como verificado
+            $guestData->email_verified_at = now();
+            $guestData->save();
+
+            return response()->json(['message' => 'Email verified successfully.']);
+        }
+
+        return response()->json(['message' => 'Invalid verification link.'], 400);
     }
 
     private function getBrowser($userAgent)
@@ -152,10 +177,10 @@ class GuestDataController extends Controller
 
         return 'Unknown OS';
     }
-  
+
     public function getChartData()
     {
-     
+
         $guests = GuestData::select('created_at')
             ->orderBy('created_at', 'asc')
             ->get()
@@ -172,7 +197,7 @@ class GuestDataController extends Controller
             'labels' => $labels->values(),
             'data' => $data->values(),
         ]);
-    
+
     }
 
     private function dataSO($totalRegistros){

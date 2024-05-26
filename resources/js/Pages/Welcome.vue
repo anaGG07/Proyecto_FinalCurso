@@ -85,16 +85,16 @@ function submitForm(event) {
     const phone = event.target.phone.value;
     const name = event.target.name.value;
     const age = event.target.age.value;
-    alert(email);
 
     axios.post('/api/store-form', {
-        email:email,
-        phone:phone,
-        name:name,
-        age:age,
+        email: email,
+        phone: phone,
+        name: name,
+        age: age,
         id: props.id,
     }).then(response => {
         console.log('Información enviada:', response.data);
+        alert('Información enviada correctamente. Revisa tu correo para verificar tu email.');
     }).catch(error => {
         console.error('Error enviando la información:', error);
     });
@@ -105,24 +105,6 @@ function submitForm(event) {
     <Head title="Welcome" />
 
     <div class="flex flex-col min-h-screen bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
-        <!-- <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
-        <Link v-if="$page.props.auth.user" :href="route('guests.index')"
-            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-        Guests
-        </Link>
-
-        <template v-else>
-            <Link :href="route('login')"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-            Log in
-            </Link>
-
-            <Link v-if="canRegister" :href="route('register')"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-            Register
-            </Link>
-        </template>
-    </nav> -->
         <main class="mt-6 flex flex-grow items-center justify-center">
             <div v-if="!showCookieBanner && !showForm" class="flex flex-col items-center justify-center w-full">
                 <div class="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-lg text-center max-w-lg mx-auto">
@@ -144,8 +126,9 @@ function submitForm(event) {
                     </p>
                     <div class="mt-4">
                         <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">¿Deseas aportar más información?</p>
-                        <button @click="openForm"
-                            class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Aceptar</button>
+                        <button @click="openForm" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">
+                            Aceptar
+                        </button>
                     </div>
                 </div>
             </div>
@@ -155,39 +138,30 @@ function submitForm(event) {
                     <h2 class="text-lg font-semibold mb-4 text-black dark:text-white">Formulario de Información</h2>
                     <form @submit="submitForm" class="space-y-4">
                         <div>
-                            <label for="name"
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre</label>
-                            <input type="text" id="name" name="name"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm text-black" />
+                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre</label>
+                            <input type="text" id="name" name="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm text-black" />
                         </div>
                         <div>
-                            <label for="age"
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Edad</label>
-                            <input type="number" id="age" name="age"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm text-black" />
+                            <label for="age" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Edad</label>
+                            <input type="number" id="age" name="age" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm text-black" />
                         </div>
                         <div>
                             <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email
                                 <span class="text-red-500">*</span></label>
-                            <input type="email" id="email" name="email" required
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm text-black" />
+                            <input type="email" id="email" name="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm text-black" />
                         </div>
                         <div>
-                            <label for="phone"
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Teléfono
+                            <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Teléfono
                                 (opcional)</label>
-                            <input type="tel" id="phone" name="phone"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm text-black" />
+                            <input type="tel" id="phone" name="phone" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm text-black" />
                         </div>
-                        <button type="submit"
-                            class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Enviar</button>
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Enviar</button>
                     </form>
                 </div>
             </div>
         </main>
 
-        <footer class="py-2 text-center text-sm text-black dark:text-white/70"
-            style="font-family: 'Arial', sans-serif;">
+        <footer class="py-2 text-center text-sm text-black dark:text-white/70" style="font-family: 'Arial', sans-serif;">
             <p class="text-lg font-bold">Análisis de Vulnerabilidades Humanas en Seguridad Cibernética</p>
             <p class="text-xs">&copy; All rights reserved</p>
         </footer>
@@ -205,10 +179,8 @@ function submitForm(event) {
                 preferencia. Al aceptar o rechazar las cookies, se registrará información para este propósito educativo.
             </p>
             <div class="flex justify-center space-x-4">
-                <button @click="acceptCookies"
-                    class=" text-white px-4 py-2 rounded-md hover:bg-red-700">Aceptar</button>
-                <button @click="rejectCookies"
-                    class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">Rechazar</button>
+                <button @click="acceptCookies" class=" text-white px-4 py-2 rounded-md hover:bg-red-700">Aceptar</button>
+                <button @click="rejectCookies" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">Rechazar</button>
             </div>
         </div>
     </div>
