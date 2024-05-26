@@ -54,8 +54,7 @@ defineProps({
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.ip_address }}</td>                                         
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.navegador }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.plataforma === 'C' ? 'Ordenador' : 'Movil' }}</td>
-                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.so }}</td>
-                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.referrer }}</td>
+                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.so }}</td>                                            
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.language }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.cookies }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.email }}</td>
@@ -63,7 +62,6 @@ defineProps({
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.name }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.age }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.fecha_alta }}</td>
-
                                         </tr>
                                     </template>
                                 </tbody>
@@ -74,7 +72,7 @@ defineProps({
                                 </tbody>
                                 <tfoot v-if="guests.links" class="text-xs font-semibold uppercase text-gray-400 dark:text-white bg-gray-50 dark:bg-gray-700">
                                     <tr>
-                                        <td colspan="7" class="border px-4 py-4 text-right dark:border-gray-700">
+                                        <td colspan="12" class="border px-4 py-4 text-right dark:border-gray-700">
                                             <Link
                                                 v-if="guests.current_page > 1"
                                                 :href="guests.prev_page_url"
