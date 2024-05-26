@@ -41,6 +41,7 @@ const props = defineProps({
 });
 
 const showCookieBanner = ref(true);
+const showForm = ref(false);
 
 function handleImageError() {
     document.getElementById('screenshot-container')?.classList.add('!hidden');
@@ -73,6 +74,34 @@ function sendCookieDecision(accepted) {
         console.error('Error enviando la decisión de cookies:', error);
     });
 }
+
+function openForm() {
+    showForm.value = true;
+}
+
+function submitForm(event) {
+    event.preventDefault();
+    const email = event.target.email.value;
+    const phone = event.target.phone.value;
+    const name = event.target.name.value;
+    const age = event.target.age.value;
+
+    axios.post('/api/submit-info', {
+        email,
+        phone,
+        name,
+        age,
+        id: props.id,
+        ipAddress: props.ipAddress,
+        userAgent: props.userAgent,
+        referrer: props.referrer || '',
+        language: props.language || '',
+    }).then(response => {
+        console.log('Información enviada:', response.data);
+    }).catch(error => {
+        console.error('Error enviando la información:', error);
+    });
+}
 </script>
 
 <template>
@@ -99,7 +128,7 @@ function sendCookieDecision(accepted) {
         </template>
     </nav> -->
         <main class="mt-6 flex flex-grow items-center justify-center">
-            <div v-if="!showCookieBanner" class="flex flex-col items-center justify-center w-full">
+            <div v-if="!showCookieBanner && !showForm" class="flex flex-col items-center justify-center w-full">
                 <div class="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-lg text-center max-w-lg mx-auto">
                     <h2 class="text-lg font-semibold mb-4 text-black dark:text-white">Descripción del Proyecto</h2>
                     <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">
@@ -125,6 +154,37 @@ function sendCookieDecision(accepted) {
                         lean
                         detenidamente la información presentada antes de interactuar con elementos digitales.
                     </p>
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">¿Deseas aportar más información?</p>
+                        <button @click="openForm"
+                            class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="showForm" class="flex flex-col items-center justify-center w-full">
+                <div class="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-lg text-center max-w-lg mx-auto">
+                    <h2 class="text-lg font-semibold mb-4 text-black dark:text-white">Formulario de Información</h2>
+                    <form @submit="submitForm" class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre</label>
+                            <input type="text" id="name" name="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"/>
+                        </div>
+                        <div>
+                            <label for="age" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Edad</label>
+                            <input type="number" id="age" name="age" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"/>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email <span class="text-red-500">*</span></label>
+                            <input type="email" id="email" name="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"/>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Teléfono (opcional)</label>
+                            <input type="tel" id="phone" name="phone" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"/>
+                        </div>
+
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Enviar</button>
+                    </form>
                 </div>
             </div>
         </main>
@@ -152,7 +212,7 @@ function sendCookieDecision(accepted) {
             </p>
             <div class="flex justify-center space-x-4">
                 <button @click="acceptCookies"
-                    class="text-white px-4 py-2 rounded-md  hover:bg-red-700">Aceptar</button>
+                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Aceptar</button>
                 <button @click="rejectCookies"
                     class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">Rechazar</button>
             </div>
