@@ -7,13 +7,22 @@ export default {
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/inertia-vue3';
-import Grafica from '@/Components/Grafica.vue'
+import GraficaSO from '@/Components/GraficaSO.vue'
+import GraficaCookies from '@/Components/GraficaCookies.vue'
 defineProps({
     guests: {
         type: Object,
         required: true,
     },
-})
+    totalRegistros: {
+        type: Number,
+        
+    },
+    soData:{
+        type: Object,
+    }
+});
+
 
 
 </script>
@@ -22,7 +31,7 @@ defineProps({
     <AppLayout title="Invitados">
         <template #header>
             <h1 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">
-                Invitados
+                {{ totalRegistros }} Invitados
             </h1>
         </template>
 
@@ -34,10 +43,10 @@ defineProps({
                             <table class="table-auto w-full">
                                 <thead class="text-xs font-semibold uppercase text-gray-400 dark:text-white bg-gray-50 dark:bg-gray-700">
                                     <tr>
-                                        <th class="px-4 py-2">IP</th>                                        
+                                        <th class="px-4 py-2">IP</th>
                                         <th class="px-4 py-2">Navegador</th>
                                         <th class="px-4 py-2">Plataforma</th>
-                                        <th class="px-4 py-2">S.O.</th>                                        
+                                        <th class="px-4 py-2">S.O.</th>
                                         <th class="px-4 py-2">Idioma</th>
                                         <th class="px-4 py-2">Cookies</th>
                                         <th class="px-4 py-2">Email</th>
@@ -45,16 +54,16 @@ defineProps({
                                         <th class="px-4 py-2">Nombre</th>
                                         <th class="px-4 py-2">Edad</th>
                                         <th class="px-4 py-2">Hora de conexion</th>
-                                        
+
                                     </tr>
                                 </thead>
                                 <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700" v-if="guests.data && guests.data.length">
                                     <template v-for="guest in guests.data" :key="guest.id">
                                         <tr>
-                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.ip_address }}</td>                                         
+                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.ip_address }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.navegador }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.plataforma === 'C' ? 'Ordenador' : 'Movil' }}</td>
-                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.so }}</td>                                            
+                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.so }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.language }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.cookies }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.email }}</td>
@@ -93,7 +102,15 @@ defineProps({
                             </table>
                         </div>
                     </div>
-                    <!-- <Grafica></Grafica> -->
+                    <div class="grid grid-cols-12">
+                        <div  class="col-span-8  p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                            <GraficaSO :datos="soData[0]" :etiqueta="'Sistema Operativo'"></GraficaSO>
+                        </div>
+                        <div class="col-span-4 p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                            <GraficaSO :datos="soData[1]" :etiqueta="'Dispositivo'"></GraficaSO>
+                            <!-- <GraficaCookies :datos="soData[1]"></GraficaCookies> -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

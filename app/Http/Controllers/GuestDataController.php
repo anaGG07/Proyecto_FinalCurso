@@ -23,8 +23,14 @@ class GuestDataController extends Controller
             return $guest;
         });
 
+        $totalRegistros = GuestData::count();
+        $soData = $this->dataSO($totalRegistros);
+
         return Inertia::render('Guests/Index', [
-            'guests' => $guests
+            'guests'            => $guests,
+            'totalRegistros'    => $totalRegistros,
+            'soData'            => $soData
+            
         ]);
     }
 
@@ -167,5 +173,40 @@ class GuestDataController extends Controller
             'data' => $data->values(),
         ]);
     
+    }
+
+    private function dataSO($totalRegistros){
+        
+        $totalAndroid = GuestData::where('so', 'Android')->count();
+        $totaliOs = GuestData::where('so', 'iOS')->count();
+        $totalMac = GuestData::where('so', 'Mac')->count();
+        $totalWindows = GuestData::where('so', 'Windows')->count();
+        $totalLinux = GuestData::where('so', 'Linux')->count();
+        $otroSO = $totalRegistros - ($totalAndroid + $totaliOs + $totalLinux + $totalWindows + $totalMac);
+        $movil = GuestData::where('plataforma', 'M')->count();
+        $pc = GuestData::where('plataforma', 'C')->count();
+        
+        $os = [
+            'Windows'   => $totalWindows,
+            'Macintosh' => $totalMac,
+            'Linux'     => $totalLinux,
+            'Android'   => $totalAndroid,
+            'iOS'       => $totaliOs,
+            'otros'     => $otroSO,
+            
+        ];
+
+        $device = [
+            'ordenador' => $pc,
+            'movil'     => $movil,
+        ];
+
+        $rt = [
+            $os,
+            $device,
+        ];
+
+        
+        return $rt;
     }
 }
