@@ -27,3 +27,8 @@ Route::middleware([
     Route::get('/datos', [GuestDataController::class, 'index'])->name('datos');
 });
 
+
+
+Route::get('/chart-data', [GuestDataController::class, 'getChartData']);
+
+

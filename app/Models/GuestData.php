@@ -21,5 +21,6 @@ class GuestData extends Model
         'phone',
         'name',
         'age',
+        'so'
     ];
 }

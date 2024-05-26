@@ -7,13 +7,15 @@ export default {
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/inertia-vue3';
-
+import Grafica from '@/Components/Grafica.vue'
 defineProps({
     guests: {
         type: Object,
         required: true,
     },
 })
+
+
 </script>
 
 <template>
@@ -35,7 +37,7 @@ defineProps({
                                         <th class="px-4 py-2">IP</th>
                                         <th class="px-4 py-2">Navegador</th>
                                         <th class="px-4 py-2">Plataforma</th>
-                                        <th class="px-4 py-2">Ref</th>
+                                        <th class="px-4 py-2">S.O.</th>
                                         <th class="px-4 py-2">Idioma</th>
                                         <th class="px-4 py-2">Cookies</th>
                                         <th class="px-4 py-2">Email</th>
@@ -51,7 +53,7 @@ defineProps({
                                         <tr>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.ip_address }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.navegador }}</td>
-                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.plataforma === 'C' ? 'Ordenador' : 'Móvil' }}</td>
+                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.plataforma === 'C' ? 'Ordenador' : 'Movil' }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.referrer }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.language }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.cookies }}</td>
@@ -92,6 +94,7 @@ defineProps({
                             </table>
                         </div>
                     </div>
+                    <!-- <Grafica></Grafica> -->
                 </div>
             </div>
         </div>
