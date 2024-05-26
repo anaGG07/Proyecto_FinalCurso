@@ -1,0 +1,17 @@
+[90m= [39m[34;4mApp\Models\GuestData[39;24m {#6197
+    [34mid[39m: [35m1[39m,
+    [34mip_address[39m: "[32m172.22.0.1[39m",
+    [34muser_agent[39m: "[32mMozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36[39m",
+    [34mreferrer[39m: [36mnull[39m,
+    [34mlanguage[39m: "[32mes_ES[39m",
+    [34mcookies[39m: [36mnull[39m,
+    [34mcreated_at[39m: "[32m2024-05-20 08:42:56[39m",
+    [34mupdated_at[39m: "[32m2024-05-20 08:42:56[39m",
+    [34mplataforma[39m: [36mnull[39m,
+    [34mnavegador[39m: [36mnull[39m,
+    [34memail[39m: [36mnull[39m,
+    [34mphone[39m: [36mnull[39m,
+    [34mname[39m: [36mnull[39m,
+    [34mage[39m: [36mnull[39m,
+  }
+
