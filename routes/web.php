@@ -61,3 +61,8 @@ Route::middleware([
     Route::resource('projects', ProjectController::class);
     Route::resource('guests',   GuestDataController::class);
 });
+
+
+Route::get('/chart-data', [GuestDataController::class, 'getChartData']);
+
+

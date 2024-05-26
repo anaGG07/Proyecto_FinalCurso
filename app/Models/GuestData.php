@@ -16,5 +16,6 @@ class GuestData extends Model
         'cookies',
         'plataforma',
         'navegador',
+        'so'
     ];
 }

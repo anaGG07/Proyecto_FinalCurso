@@ -7,6 +7,8 @@ use Inertia\Response;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Detection\MobileDetect;
+
 class GuestDataController extends Controller
 {
     public function index(Request $request)
@@ -32,9 +34,12 @@ class GuestDataController extends Controller
         $language = $request->getPreferredLanguage();
         $decision = $request->decision;
         
-        $plataforma = $this->isMobile($userAgent) ? 'M' : 'C'; // 'M' para móvil, 'C' para ordenador
-        $navegador = $this->getBrowser($userAgent);
+        $detect = new MobileDetect;
 
+        $plataforma = $detect->isMobile() ? 'M' : 'C'; // 'M' para móvil, 'C' para ordenador                
+        $navegador = $this->getBrowser($userAgent);
+        $so = ($detect->isMobile()) ? ($detect->isiOS()) ? 'iOS' : 'Android' : $this->getOS($userAgent);
+   
         // Guardar datos en la base de datos
         $userData = GuestData::create([
             'ip_address' => $ipAddress,
@@ -44,6 +49,7 @@ class GuestDataController extends Controller
             'decision' => $decision,
             'navegador' => $navegador,
             'plataforma' => $plataforma,
+            'so' => $so,
         ]);
         // Enviar la información a Vue directamente
         return inertia('Welcome', [
@@ -76,7 +82,7 @@ class GuestDataController extends Controller
                 'user_agent'    => $validated['userAgent'],
                 'referrer'      => $validated['referrer'],
                 'language'      => $validated['language'],
-                'cookies'      => $validated['cookies'],
+                'cookies'       => $validated['cookies'],
                 'updated_at'    => now(),
             ]);
 
@@ -100,16 +106,42 @@ class GuestDataController extends Controller
 
         return 'Other';
     }
-    private function isMobile($userAgent)
+    private function getOS($userAgent)
     {
-        $mobileAgents = ['Mobile', 'Android', 'Silk/', 'Kindle', 'BlackBerry', 'Opera Mini', 'Opera Mobi'];
+        $osArray = [
+            'Windows'   => 'Windows',
+            'Macintosh' => 'Mac',
+            'Linux'     => 'Linux',
+        ];
 
-        foreach ($mobileAgents as $device) {
-            if (strpos($userAgent, $device) !== false) {
-                return true;
+        foreach ($osArray as $key => $os) {
+            if (stripos($userAgent, $key) !== false) {
+                return $os;
             }
         }
 
-        return false;
+        return 'Unknown OS';
+    }
+  
+    public function getChartData()
+    {
+     
+        $guests = GuestData::select('created_at')
+            ->orderBy('created_at', 'asc')
+            ->get()
+            ->groupBy(function ($date) {
+                return Carbon::parse($date->created_at)->format('Y-m-d');
+            });
+
+        $labels = $guests->keys();
+        $data = $guests->map(function ($guest) {
+            return $guest->count();
+        });
+
+        return response()->json([
+            'labels' => $labels->values(),
+            'data' => $data->values(),
+        ]);
+    
     }
 }
