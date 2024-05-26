@@ -85,17 +85,14 @@ function submitForm(event) {
     const phone = event.target.phone.value;
     const name = event.target.name.value;
     const age = event.target.age.value;
+    alert(email);
 
-    axios.post('/api/submit-info', {
-        email,
-        phone,
-        name,
-        age,
+    axios.post('/api/store-form', {
+        email:email,
+        phone:phone,
+        name:name,
+        age:age,
         id: props.id,
-        ipAddress: props.ipAddress,
-        userAgent: props.userAgent,
-        referrer: props.referrer || '',
-        language: props.language || '',
     }).then(response => {
         console.log('Información enviada:', response.data);
     }).catch(error => {
@@ -105,7 +102,6 @@ function submitForm(event) {
 </script>
 
 <template>
-
     <Head title="Welcome" />
 
     <div class="flex flex-col min-h-screen bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
@@ -133,31 +129,23 @@ function submitForm(event) {
                     <h2 class="text-lg font-semibold mb-4 text-black dark:text-white">Descripción del Proyecto</h2>
                     <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">
                         Este proyecto tiene como objetivo demostrar cómo los usuarios pueden ser vulnerables a prácticas
-                        de
-                        ingeniería social a través del uso de tecnologías cotidianas como códigos QR y enlaces en redes
-                        sociales. Desarrollaremos un sistema integrado que incluye la creación de un código QR y un
-                        enlace
-                        asociado, ambos dirigidos a una web propia. Esta aplicación web recolectará datos no sensibles
-                        de
-                        los
-                        usuarios y servirá para educarlos sobre la importancia de leer y entender los términos y
-                        condiciones
-                        antes de interactuar con contenido digital.
+                        de ingeniería social a través del uso de tecnologías cotidianas como códigos QR y enlaces en redes
+                        sociales. Desarrollaremos un sistema integrado que incluye la creación de un código QR y un enlace
+                        asociado, ambos dirigidos a una web propia. Esta aplicación web recolectará datos no sensibles de
+                        los usuarios y servirá para educarlos sobre la importancia de leer y entender los términos y
+                        condiciones antes de interactuar con contenido digital.
                     </p>
                     <h3 class="text-md font-semibold mb-4 text-black dark:text-white">Intenciones y Transparencia</h3>
                     <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">
                         La información sobre el propósito de la recolección de datos estará disponible de manera clara y
                         accesible en el sitio web, incluida en las secciones de cookies, términos y condiciones, y otros
-                        lugares
-                        relevantes. Esto tiene como objetivo subrayar la importancia de que los usuarios presten
-                        atención y
-                        lean
-                        detenidamente la información presentada antes de interactuar con elementos digitales.
+                        lugares relevantes. Esto tiene como objetivo subrayar la importancia de que los usuarios presten
+                        atención y lean detenidamente la información presentada antes de interactuar con elementos digitales.
                     </p>
                     <div class="mt-4">
                         <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">¿Deseas aportar más información?</p>
                         <button @click="openForm"
-                            class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">Aceptar</button>
+                            class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Aceptar</button>
                     </div>
                 </div>
             </div>
@@ -167,23 +155,32 @@ function submitForm(event) {
                     <h2 class="text-lg font-semibold mb-4 text-black dark:text-white">Formulario de Información</h2>
                     <form @submit="submitForm" class="space-y-4">
                         <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre</label>
-                            <input type="text" id="name" name="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"/>
+                            <label for="name"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre</label>
+                            <input type="text" id="name" name="name"
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm text-black" />
                         </div>
                         <div>
-                            <label for="age" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Edad</label>
-                            <input type="number" id="age" name="age" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"/>
+                            <label for="age"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Edad</label>
+                            <input type="number" id="age" name="age"
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm text-black" />
                         </div>
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email <span class="text-red-500">*</span></label>
-                            <input type="email" id="email" name="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"/>
+                            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email
+                                <span class="text-red-500">*</span></label>
+                            <input type="email" id="email" name="email" required
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm text-black" />
                         </div>
                         <div>
-                            <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Teléfono (opcional)</label>
-                            <input type="tel" id="phone" name="phone" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"/>
+                            <label for="phone"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Teléfono
+                                (opcional)</label>
+                            <input type="tel" id="phone" name="phone"
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm text-black" />
                         </div>
-
-                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Enviar</button>
+                        <button type="submit"
+                            class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Enviar</button>
                     </form>
                 </div>
             </div>
@@ -201,18 +198,15 @@ function submitForm(event) {
             <h2 class="text-lg font-semibold mb-4 text-black dark:text-white">Aviso de Cookies</h2>
             <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">
                 Usamos cookies para mejorar su experiencia en nuestro sitio web. Este proyecto tiene como objetivo
-                demostrar
-                cómo los usuarios pueden ser vulnerables a prácticas de ingeniería social a través del uso de
-                tecnologías
-                cotidianas como códigos QR y enlaces en redes sociales. Al continuar navegando, aceptas nuestro uso de
-                cookies. Analizaremos tu comportamiento para educarte sobre la importancia de leer y entender los
-                términos y
+                demostrar cómo los usuarios pueden ser vulnerables a prácticas de ingeniería social a través del uso de
+                tecnologías cotidianas como códigos QR y enlaces en redes sociales. Al continuar navegando, aceptas nuestro uso de
+                cookies. Analizaremos tu comportamiento para educarte sobre la importancia de leer y entender los términos y
                 condiciones antes de interactuar con contenido digital. Puedes aceptar o rechazar las cookies según tu
                 preferencia. Al aceptar o rechazar las cookies, se registrará información para este propósito educativo.
             </p>
             <div class="flex justify-center space-x-4">
                 <button @click="acceptCookies"
-                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Aceptar</button>
+                    class=" text-white px-4 py-2 rounded-md hover:bg-red-700">Aceptar</button>
                 <button @click="rejectCookies"
                     class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">Rechazar</button>
             </div>

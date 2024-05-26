@@ -3,18 +3,17 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\GuestDataController;
 
-// RUTA SIN AUTENTIFICAR
+// RUTAS SIN AUTENTIFICAR
 Route::get('/', [GuestDataController::class, 'store'])->name('start');
 Route::post('/api/cookies', [GuestDataController::class, 'storeCookieDecision']);
+Route::post('/api/store-form', [GuestDataController::class, 'storeForm']);
 Route::get('/inicio', function () {
     return Inertia::render('Inicio');
 });
 
-
-// RUTA AUTENTICADA
+// RUTAS AUTENTICADAS
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -23,6 +22,6 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Index');
     })->name('dashboard');
-    Route::resource('guests',   GuestDataController::class);
+    Route::resource('guests', GuestDataController::class);
     Route::get('/datos', [GuestDataController::class, 'index'])->name('datos');
 });

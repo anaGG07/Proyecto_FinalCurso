@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\GuestData;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 class GuestDataController extends Controller
 {
     public function index(Request $request)
@@ -24,6 +26,7 @@ class GuestDataController extends Controller
             'guests' => $guests
         ]);
     }
+
     public function store(Request $request)
     {
         $ipAddress = $request->ip();
@@ -31,7 +34,7 @@ class GuestDataController extends Controller
         $referrer = $request->headers->get('referer');
         $language = $request->getPreferredLanguage();
         $decision = $request->decision;
-        
+
         $plataforma = $this->isMobile($userAgent) ? 'M' : 'C'; // 'M' para móvil, 'C' para ordenador
         $navegador = $this->getBrowser($userAgent);
 
@@ -45,6 +48,7 @@ class GuestDataController extends Controller
             'navegador' => $navegador,
             'plataforma' => $plataforma,
         ]);
+
         // Enviar la información a Vue directamente
         return inertia('Welcome', [
             'ipAddress' => $ipAddress,
@@ -54,34 +58,55 @@ class GuestDataController extends Controller
             'id' => $userData->id,
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register')
-
-            ]);
+        ]);
     }
+
     public function storeCookieDecision(Request $request)
     {
-
         $validated = $request->validate([
-            'ipAddress' => 'required|string',
-            'userAgent' => 'required|string',
-            'referrer' => 'nullable|string',
-            'language' => 'nullable|string',
             'cookies' => 'nullable|string',
             'id' => 'required|integer',
         ]);
-        GuestData::updateOrCreate (
+
+        GuestData::updateOrCreate(
             [
                 'id' => $validated['id']
-            ],[
-                'ip_address'    => $validated['ipAddress'],
-                'user_agent'    => $validated['userAgent'],
-                'referrer'      => $validated['referrer'],
-                'language'      => $validated['language'],
-                'cookies'      => $validated['cookies'],
-                'updated_at'    => now(),
-            ]);
+            ],
+            [
+                'cookies' => $validated['cookies'],
+                'updated_at' => now(),
+            ]
+        );
 
         return response()->json(['message' => 'Cookie decision recorded successfully.']);
     }
+
+    public function storeForm(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string',
+            'name' => 'nullable|string',
+            'age' => 'nullable|integer',
+            'id' => 'required|integer',
+        ]);
+
+        GuestData::updateOrCreate(
+            [
+                'id' => $validated['id']
+            ],
+            [
+                'email' => $validated['email'],
+                'phone' => $validated['phone'],
+                'name' => $validated['name'],
+                'age' => $validated['age'],
+                'updated_at' => now(),
+            ]
+        );
+
+        return response()->json(['message' => 'Form data recorded successfully.']);
+    }
+
     private function getBrowser($userAgent)
     {
         if (strpos($userAgent, 'Firefox') !== false) {
@@ -100,6 +125,7 @@ class GuestDataController extends Controller
 
         return 'Other';
     }
+
     private function isMobile($userAgent)
     {
         $mobileAgents = ['Mobile', 'Android', 'Silk/', 'Kindle', 'BlackBerry', 'Opera Mini', 'Opera Mobi'];

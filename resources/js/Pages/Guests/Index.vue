@@ -39,6 +39,10 @@ defineProps({
                                         <th class="px-4 py-2">Ref</th>
                                         <th class="px-4 py-2">Idioma</th>
                                         <th class="px-4 py-2">Cookies</th>
+                                        <th class="px-4 py-2">Email</th>
+                                        <th class="px-4 py-2">Telefono</th>
+                                        <th class="px-4 py-2">Nombre</th>
+                                        <th class="px-4 py-2">Edad</th>
                                         <th class="px-4 py-2">Hora de conexion</th>
                                         <!-- <th class="px-4 py-2">Acciones</th> -->
                                     </tr>
@@ -53,7 +57,12 @@ defineProps({
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.referrer }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.language }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.cookies }}</td>
+                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.email }}</td>
+                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.phone }}</td>
+                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.name }}</td>
+                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.age }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.fecha_alta }}</td>
+
                                         </tr>
                                     </template>
                                 </tbody>
