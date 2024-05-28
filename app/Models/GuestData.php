@@ -21,6 +21,10 @@ class GuestData extends Model
         'phone',
         'name',
         'age',
-        'so'
+        'so',
+        'email_verified_at',
+        'email_abierto',
     ];
+
+    //protected $hidden=[];
 }

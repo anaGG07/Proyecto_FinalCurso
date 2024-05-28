@@ -54,6 +54,7 @@ defineProps({
                                         <th class="px-4 py-2">Nombre</th>
                                         <th class="px-4 py-2">Edad</th>
                                         <th class="px-4 py-2">Verificado</th>
+                                        <th class="px-4 py-2">Abierto</th>
                                         <th class="px-4 py-2">Hora de conexión</th>
                                     </tr>
                                 </thead>
@@ -71,6 +72,7 @@ defineProps({
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.name }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.age }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.email_verified_at ? 'Sí' : 'No' }}</td>
+                                            <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.email_abierto === 'S' ? 'Sí' : 'No' }}</td>
                                             <td class="border px-4 dark:border-gray-700 dark:text-white">{{ guest.fecha_alta }}</td>
                                         </tr>
                                     </template>
@@ -108,6 +110,7 @@ defineProps({
                             <GraficaSO :datos="soData[0]" :etiqueta="'Sistema Operativo'"></GraficaSO>
                         </div>
                         <div class="col-span-4 p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                            <GraficaSO :datos="soData[1]" :etiqueta="'Dispositivo'"></GraficaSO>
                             <GraficaSO :datos="soData[1]" :etiqueta="'Dispositivo'"></GraficaSO>
                             <!-- <GraficaCookies :datos="soData[1]"></GraficaCookies> -->
                         </div>

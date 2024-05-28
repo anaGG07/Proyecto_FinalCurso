@@ -24,6 +24,7 @@ class VerifyEmail extends Notification
 
     public function toMail($notifiable)
     {
+
         return (new MailMessage)
             ->subject('Verifica tu dirección de correo electrónico')
             ->line('Haz clic en el botón de abajo para verificar tu dirección de correo electrónico.')

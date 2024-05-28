@@ -10,6 +10,7 @@ Route::get('/', [GuestDataController::class, 'store'])->name('start');
 Route::post('/api/cookies', [GuestDataController::class, 'storeCookieDecision']);
 Route::post('/api/store-form', [GuestDataController::class, 'storeForm']);
 Route::get('/verify-email', [GuestDataController::class, 'verifyEmail'])->name('verify.email');
+Route::get('/send-email/{email}/{nombre}', [GuestDataController::class, 'enviarEmail']);
 Route::get('/inicio', function () {
     return Inertia::render('Inicio');
 });

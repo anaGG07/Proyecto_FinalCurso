@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\GuestData;
 use App\Notifications\VerifyEmail;
 use Illuminate\Http\Request;
@@ -11,9 +12,12 @@ use Inertia\Inertia;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use Detection\MobileDetect;
+use App\Mail\EnvioEmail;
+use Illuminate\Support\Facades\Mail;
 
 class GuestDataController extends Controller
 {
+
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 10);
@@ -32,7 +36,7 @@ class GuestDataController extends Controller
             'guests'            => $guests,
             'totalRegistros'    => $totalRegistros,
             'soData'            => $soData
-            
+
         ]);
     }
 
@@ -48,7 +52,9 @@ class GuestDataController extends Controller
 
         $plataforma = $detect->isMobile() ? 'M' : 'C'; // 'M' para móvil, 'C' para ordenador
         $navegador = $this->getBrowser($userAgent);
-        $so = ($detect->isMobile()) ? ($detect->isiOS()) ? 'iOS' : 'Android' : $this->getOS($userAgent);
+        $so = $detect->isMobile()
+                ? ($detect->isiOS() ? 'iOS' : 'Android')
+                : $this->getOS($userAgent);
 
         // Guardar datos en la base de datos
         $userData = GuestData::create([
@@ -128,9 +134,9 @@ class GuestDataController extends Controller
     public function verifyEmail(Request $request)
     {
         $email = $request->query('email');
-        $token = $request->query('token');
+        //$token = $request->query('token');
 
-        $guestData = GuestData::where('email', $email)->first();
+        $guestData = GuestData::where('email', $email)->orderBy('created_at', 'desc')->first();
 
         if ($guestData) {
             // Marca el correo como verificado
@@ -159,7 +165,7 @@ class GuestDataController extends Controller
             return 'IE';
         }
 
-        return 'Other';
+        return 'Otro';
     }
     private function getOS($userAgent)
     {
@@ -175,7 +181,7 @@ class GuestDataController extends Controller
             }
         }
 
-        return 'Unknown OS';
+        return 'Sistema Operativo Desconocido.';
     }
 
     public function getChartData()
@@ -201,7 +207,7 @@ class GuestDataController extends Controller
     }
 
     private function dataSO($totalRegistros){
-        
+
         $totalAndroid = GuestData::where('so', 'Android')->count();
         $totaliOs = GuestData::where('so', 'iOS')->count();
         $totalMac = GuestData::where('so', 'Mac')->count();
@@ -210,7 +216,7 @@ class GuestDataController extends Controller
         $otroSO = $totalRegistros - ($totalAndroid + $totaliOs + $totalLinux + $totalWindows + $totalMac);
         $movil = GuestData::where('plataforma', 'M')->count();
         $pc = GuestData::where('plataforma', 'C')->count();
-        
+
         $os = [
             'Windows'   => $totalWindows,
             'Macintosh' => $totalMac,
@@ -218,7 +224,7 @@ class GuestDataController extends Controller
             'Android'   => $totalAndroid,
             'iOS'       => $totaliOs,
             'otros'     => $otroSO,
-            
+
         ];
 
         $device = [
@@ -231,7 +237,18 @@ class GuestDataController extends Controller
             $device,
         ];
 
-        
+
         return $rt;
+    }
+
+    public function enviarEmail($email, $nombre)
+    {
+        $mail = [
+            'title' => 'Recopilación de datos S.I.',
+            'body' => '¡Gracias por participar en este proyecto, '.$nombre.'!'
+        ];
+        Mail::to($email)->send(new EnvioEmail($mail));
+
+        return response()->json(['message' => 'Email enviado correctamente.']);
     }
 }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->integer('age')->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->char('email_abierto', 1)->default('N');
+
         });
     }
 
@@ -31,6 +33,7 @@ return new class extends Migration
             $table->dropColumn('name');
             $table->dropColumn('age');
             $table->dropColumn('email_verified_at');
+            $table->dropColumn('email_abierto');
         });
     }
 };
