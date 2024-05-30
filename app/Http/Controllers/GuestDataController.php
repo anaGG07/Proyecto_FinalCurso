@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\GuestData;
 use App\Notifications\VerifyEmail;
 use Illuminate\Http\Request;
@@ -17,7 +16,6 @@ use Illuminate\Support\Facades\Mail;
 
 class GuestDataController extends Controller
 {
-
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 10);
@@ -36,7 +34,6 @@ class GuestDataController extends Controller
             'guests'            => $guests,
             'totalRegistros'    => $totalRegistros,
             'soData'            => $soData
-
         ]);
     }
 
@@ -123,9 +120,10 @@ class GuestDataController extends Controller
             ]
         );
 
-        if ($guestData->email) {
-            $verificationUrl = route('verify.email', ['token' => Str::random(32), 'email' => $guestData->email]);
-            Notification::route('mail', $guestData->email)->notify(new VerifyEmail($verificationUrl));
+         if ($guestData->email) {
+            $verificationUrl = config('app.url') . route('verify.email', ['token' => Str::random(32), 'email' => $guestData->email], false);
+            // Notification::route('mail', $guestData->email)->notify(new VerifyEmail($verificationUrl, $guestData->id));
+            Notification::route('mail', $guestData->email)->notify(new VerifyEmail($verificationUrl, $guestData->id));
         }
 
         return response()->json(['message' => 'Form data recorded successfully.']);
@@ -141,6 +139,9 @@ class GuestDataController extends Controller
         if ($guestData) {
             // Marca el correo como verificado
             $guestData->email_verified_at = now();
+            if ($guestData->email_verified_at) {
+                $guestData->email_abierto = 'S';
+            }
             $guestData->save();
 
             return response()->json(['message' => 'Email verified successfully.']);
@@ -167,6 +168,7 @@ class GuestDataController extends Controller
 
         return 'Otro';
     }
+
     private function getOS($userAgent)
     {
         $osArray = [
@@ -186,7 +188,6 @@ class GuestDataController extends Controller
 
     public function getChartData()
     {
-
         $guests = GuestData::select('created_at')
             ->orderBy('created_at', 'asc')
             ->get()
@@ -203,19 +204,55 @@ class GuestDataController extends Controller
             'labels' => $labels->values(),
             'data' => $data->values(),
         ]);
-
     }
 
-    private function dataSO($totalRegistros){
+    private function dataSO($totalRegistros)
+    {
+        // Obtener los conteos de sistemas operativos conocidos
+        $osCounts = GuestData::whereIn('so', ['Android', 'iOS', 'Mac', 'Windows', 'Linux'])
+            ->get()
+            ->groupBy('so')
+            ->map(function ($group) {
+                return $group->count();
+            })
+            ->toArray();
 
-        $totalAndroid = GuestData::where('so', 'Android')->count();
-        $totaliOs = GuestData::where('so', 'iOS')->count();
-        $totalMac = GuestData::where('so', 'Mac')->count();
-        $totalWindows = GuestData::where('so', 'Windows')->count();
-        $totalLinux = GuestData::where('so', 'Linux')->count();
-        $otroSO = $totalRegistros - ($totalAndroid + $totaliOs + $totalLinux + $totalWindows + $totalMac);
-        $movil = GuestData::where('plataforma', 'M')->count();
-        $pc = GuestData::where('plataforma', 'C')->count();
+        // Calcular los totales para cada sistema operativo
+        $totalAndroid = $osCounts['Android'] ?? 0;
+        $totaliOs = $osCounts['iOS'] ?? 0;
+        $totalMac = $osCounts['Mac'] ?? 0;
+        $totalWindows = $osCounts['Windows'] ?? 0;
+        $totalLinux = $osCounts['Linux'] ?? 0;
+
+        // Calcular otros sistemas operativos
+        $otrosSO = $totalRegistros - ($totalAndroid + $totaliOs + $totalLinux + $totalWindows + $totalMac);
+
+        // Obtener los conteos de las plataformas
+        $plataformas = GuestData::whereIn('plataforma', ['M', 'C'])
+            ->get()
+            ->groupBy('plataforma')
+            ->map(function ($group) {
+                return $group->count();
+            })
+            ->toArray();
+
+        // Calcular los totales para cada plataforma
+        $movil = $plataformas['M'] ?? 0;
+        $pc = $plataformas['C'] ?? 0;
+
+        // Obtener los conteos de las cookies
+        $cookieCounts = GuestData::whereIn('cookies', ['S', 'N'])
+            ->get()
+            ->groupBy('cookies')
+            ->map(function ($group) {
+                return $group->count();
+            })
+            ->toArray();
+
+        // Calcular los totales para cada estado de cookies
+        $cookiesAceptadas = $cookieCounts['S'] ?? 0;
+        $cookiesDenegadas = $cookieCounts['N'] ?? 0;
+        $cookiesIgnoradas = $totalRegistros - ($cookiesAceptadas + $cookiesDenegadas);
 
         $os = [
             'Windows'   => $totalWindows,
@@ -223,8 +260,7 @@ class GuestDataController extends Controller
             'Linux'     => $totalLinux,
             'Android'   => $totalAndroid,
             'iOS'       => $totaliOs,
-            'otros'     => $otroSO,
-
+            'otros'     => $otrosSO,
         ];
 
         $device = [
@@ -232,20 +268,23 @@ class GuestDataController extends Controller
             'movil'     => $movil,
         ];
 
-        $rt = [
-            $os,
-            $device,
+        $cookies = [
+            'aceptadas' => $cookiesAceptadas,
+            'rechazadas' => $cookiesDenegadas,
+            'ignoradas' => $cookiesIgnoradas,
         ];
 
-
-        return $rt;
+        return [$os, $device, $cookies];
     }
+
+
+
 
     public function enviarEmail($email, $nombre)
     {
         $mail = [
             'title' => 'Recopilación de datos S.I.',
-            'body' => '¡Gracias por participar en este proyecto, '.$nombre.'!'
+            'body' => '¡Gracias por participar en este proyecto, ' . $nombre . '!'
         ];
         Mail::to($email)->send(new EnvioEmail($mail));
 

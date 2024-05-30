@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\GuestDataController;
+use App\Http\Controllers\SeguimientoController;
+
 
 // Rutas sin autenticar
 Route::get('/', [GuestDataController::class, 'store'])->name('start');
@@ -11,6 +13,7 @@ Route::post('/api/cookies', [GuestDataController::class, 'storeCookieDecision'])
 Route::post('/api/store-form', [GuestDataController::class, 'storeForm']);
 Route::get('/verify-email', [GuestDataController::class, 'verifyEmail'])->name('verify.email');
 Route::get('/send-email/{email}/{nombre}', [GuestDataController::class, 'enviarEmail']);
+Route::get('/email/opened/{id}', [SeguimientoController::class, 'EmailAbierto'])->name('email.track');
 Route::get('/inicio', function () {
     return Inertia::render('Inicio');
 });

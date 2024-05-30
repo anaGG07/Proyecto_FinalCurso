@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class VerifyEmail extends Notification
+class VerifyEmailMarkdown extends Notification
 {
     use Queueable;
 
@@ -26,15 +26,14 @@ class VerifyEmail extends Notification
 
     public function toMail($notifiable)
     {
-        $url = config('app.url');
-        $trackingUrl =  $url. route('email.track', ['id' => $this->guestId], false);
-        $pixel = $url .'/images/pixel.png';
+
+        $trackingUrl = config('app.url') . route('email.track', ['id' => $this->guestId], false);
+
         return (new MailMessage)
             ->subject('Verifica tu dirección de correo electrónico')
-            ->view('emails.verify-email', [
+            ->markdown('emails.verify-email-markdown', [
                 'url' => $this->verificationUrl,
                 'trackingUrl' => $trackingUrl,
-                'pixel' => $pixel,
             ]);
     }
 }

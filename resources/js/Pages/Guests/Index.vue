@@ -110,9 +110,11 @@ defineProps({
                             <GraficaSO :datos="soData[0]" :etiqueta="'Sistema Operativo'"></GraficaSO>
                         </div>
                         <div class="col-span-4 p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                            <GraficaCookies :datos="soData[2]"></GraficaCookies>
+                        </div>
+                        <div class="col-span-4 p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                            <div class="text-xl"> Tipo de dispositivos </div>
                             <GraficaSO :datos="soData[1]" :etiqueta="'Dispositivo'"></GraficaSO>
-                            <GraficaSO :datos="soData[1]" :etiqueta="'Dispositivo'"></GraficaSO>
-                            <!-- <GraficaCookies :datos="soData[1]"></GraficaCookies> -->
                         </div>
                     </div>
                 </div>
