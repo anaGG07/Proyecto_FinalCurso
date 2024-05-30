@@ -3,7 +3,7 @@ APP_ENV=local
 APP_KEY=base64:fRQKLo1LCrC6tA+WqhetYPCL+H+mK51FdUhJXmdqqQM=
 APP_DEBUG=true
 APP_TIMEZONE=Europe/Madrid
-APP_URL=http://localhost
+APP_URL=http://54.205.112.122
 
 APP_LOCALE=es
 APP_FALLBACK_LOCALE=es
@@ -47,6 +47,14 @@ REDIS_HOST=redis
 REDIS_PASSWORD=null
 REDIS_PORT=6379
 
+# MAIL_MAILER=smtp
+# MAIL_HOST=smtp.gmail.com
+# MAIL_PORT=587
+# MAIL_USERNAME=ana24garcia07@gmail.com
+# MAIL_PASSWORD=tbioirydcgviqyqc
+# MAIL_ENCRYPTION=tls
+# MAIL_FROM_ADDRESS=ana24garcia07@gmail.com
+# MAIL_FROM_NAME=Ana
 MAIL_MAILER=smtp
 MAIL_HOST=smtp.gmail.com
 MAIL_PORT=587
@@ -55,6 +63,7 @@ MAIL_PASSWORD=tbioirydcgviqyqc
 MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS=ana24garcia07@gmail.com
 MAIL_FROM_NAME=Ana
+
 
 
 
