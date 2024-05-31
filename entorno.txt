@@ -47,22 +47,17 @@ REDIS_HOST=redis
 REDIS_PASSWORD=null
 REDIS_PORT=6379
 
-# MAIL_MAILER=smtp
-# MAIL_HOST=smtp.gmail.com
-# MAIL_PORT=587
-# MAIL_USERNAME=ana24garcia07@gmail.com
-# MAIL_PASSWORD=tbioirydcgviqyqc
-# MAIL_ENCRYPTION=tls
-# MAIL_FROM_ADDRESS=ana24garcia07@gmail.com
-# MAIL_FROM_NAME=Ana
+
+
 MAIL_MAILER=smtp
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=ana24garcia07@gmail.com
-MAIL_PASSWORD=tbioirydcgviqyqc
-MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS=ana24garcia07@gmail.com
-MAIL_FROM_NAME=Ana
+MAIL_HOST=smtp-es.securemail.pro  
+MAIL_PORT=465                      
+MAIL_USERNAME=hello@proyecto-analisis.es
+MAIL_PASSWORD=proyectoAnalisis!   
+MAIL_ENCRYPTION=ssl                
+MAIL_FROM_ADDRESS=hello@proyecto-analisis.es
+MAIL_FROM_NAME="${APP_NAME}"
+
 
 
 
