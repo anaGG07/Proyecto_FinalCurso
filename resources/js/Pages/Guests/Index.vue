@@ -31,6 +31,7 @@ function getOSAbbreviation(osName) {
         'Windows': 'WIN',
         'Linux': 'LIN',
         'Macintosh': 'MAC',
+	'Mac':'MAC',
         'iOS': 'IOS',
         'Android': 'AND',
         'Unix': 'UNI',
