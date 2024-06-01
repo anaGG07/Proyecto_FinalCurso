@@ -39,7 +39,7 @@ function getOSAbbreviation(osName) {
         // Puedes agregar más sistemas operativos y sus abreviaturas aquí
     };
 
-    return osAbbreviations[osName] || 'UNKNOWN';
+    return osAbbreviations[osName] || '???';
 };
 function textoCookies(cookieValue) {
     const cookieInterpretations = {
@@ -52,7 +52,7 @@ function textoCookies(cookieValue) {
 }
 function getBrowserAbbreviation(browserName) {
     const browserAbbreviations = {
-        'Firefox': 'FF',
+        'Firefox': 'FFX',
         'Opera': 'OPR',
         'Edge': 'EDG',
         'Chrome': 'CHR',
@@ -60,7 +60,7 @@ function getBrowserAbbreviation(browserName) {
         'IE': 'IE'
     };
 
-    return browserAbbreviations[browserName] || 'UNKNOWN';
+    return browserAbbreviations[browserName] || '???';
 };
 
 function maskEmail(email) {
@@ -71,7 +71,7 @@ function maskEmail(email) {
 
     // Dividir la dirección de correo electrónico en dos partes: usuario y dominio
     const [user, domain] = email.split('@');
-    
+
     // Asegurarse de que el usuario tiene al menos tres caracteres
     if (user.length < 3) {
         return email; // Si el usuario tiene menos de tres caracteres, devolver el correo sin cambios
@@ -119,7 +119,7 @@ function maskPhoneNumber(phoneNumber) {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                        <div class="mt-4">
+                        <div class="mt-4 overflow-x-auto">
                             <table class="table-auto w-full">
                                 <thead class="text-xs font-semibold uppercase text-gray-400 dark:text-white bg-gray-50 dark:bg-gray-700">
                                     <tr>
@@ -187,7 +187,7 @@ function maskPhoneNumber(phoneNumber) {
                     </div>
                     <div class="grid grid-cols-12">
                         <div  class="col-span-8  p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                            <div class="text-xl text-white">Sistemas Operativos</div>                            
+                            <div class="text-xl text-white">Sistemas Operativos</div>
                             <GraficaSO :datos="soData[0]" :etiqueta="'SO'"></GraficaSO>
                         </div>
                         <div class="col-span-4 p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
@@ -195,11 +195,11 @@ function maskPhoneNumber(phoneNumber) {
                             <GraficaSO :datos="soData[1]" :etiqueta="'Dispositivo'"></GraficaSO>
                         </div>
                         <div class="col-span-4 p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                            <div class="text-xl text-white"> Aceptación de Cookies </div>                            
+                            <div class="text-xl text-white"> Aceptación de Cookies </div>
                             <GraficaCookies :datos="soData[2]"></GraficaCookies>
                         </div>
                         <div class="col-span-4 p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                            <div class="text-xl text-white"> Emails </div>                            
+                            <div class="text-xl text-white"> Emails </div>
                             <GraficaMails :datos="emailData"></GraficaMails>
                         </div>
                     </div>
