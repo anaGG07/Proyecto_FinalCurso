@@ -253,10 +253,7 @@ onMounted(() => {
                     block: showingNavigationDropdown,
                     hidden: !showingNavigationDropdown,
                 }" class="sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
-                        <!-- <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </ResponsiveNavLink> -->
+                    <div class="pt-2 pb-3 space-y-1">                       
                         <ResponsiveNavLink :href="route('datos')" :active="route().current('datos')"
                                     class="text-gray-800 dark:text-white">
                                     Registro de Accesos

@@ -17,6 +17,9 @@ Route::get('/email/opened/{id}', [SeguimientoController::class, 'EmailAbierto'])
 Route::get('/inicio', function () {
     return Inertia::render('Inicio');
 });
+Route::get('/gracias', function () {
+    return Inertia::render('Gracias');
+})->name('gracias');
 
 // Rutas autenticadas
 Route::middleware([
@@ -24,10 +27,11 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Index');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return Inertia::render('Index');
+    // })->name('dashboard');
     Route::resource('guests', GuestDataController::class);
+    Route::get('/dashboard', [GuestDataController::class, 'index'])->name('dashboard');
     Route::get('/datos', [GuestDataController::class, 'index'])->name('datos');
 });
 

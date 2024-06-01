@@ -22,9 +22,14 @@ export default {
       type: Object,
       required: true
     },
-    etiqueta:{
+    etiqueta: {
       type: String,
       required: true
+    },
+    colores: {
+      type: Array,
+      required: false,
+      default: () => ['#28a745', '#dc3545', '#007bff', '#343a40', '#ffcc00', '#ff6633', '#33cc33', '#ff0066']
     }
   },
   data() {
@@ -34,8 +39,8 @@ export default {
         datasets: [{
           label: this.etiqueta,
           data: Object.values(this.datos),
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: this.colores,
+          borderColor: this.colores.map(color => this.darkenColor(color, 0.2)),
           borderWidth: 1
         }]
       },
@@ -47,6 +52,26 @@ export default {
           }
         }
       }
+    }
+  },
+  methods: {
+    darkenColor(color, amount) {
+      let usePound = false;
+      if (color[0] === "#") {
+        color = color.slice(1);
+        usePound = true;
+      }
+
+      const num = parseInt(color, 16);
+      let r = (num >> 16) + amount * 255;
+      let g = ((num >> 8) & 0x00FF) + amount * 255;
+      let b = (num & 0x0000FF) + amount * 255;
+
+      r = Math.max(Math.min(255, r), 0);
+      g = Math.max(Math.min(255, g), 0);
+      b = Math.max(Math.min(255, b), 0);
+
+      return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
     }
   }
 }

@@ -31,6 +31,7 @@ class VerifyEmail extends Notification
         $pixel = $url .'/images/pixel.png';
         return (new MailMessage)
             ->subject('Verifica tu dirección de correo electrónico')
+            //->action('Verificar correo', url('/gracias?redirect=' . urlencode($this->verificationUrl)));
             ->view('emails.verify-email', [
                 'url' => $this->verificationUrl,
                 'trackingUrl' => $trackingUrl,

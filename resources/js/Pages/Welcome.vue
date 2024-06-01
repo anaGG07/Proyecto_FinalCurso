@@ -3,6 +3,8 @@ import { Head, Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import axios from 'axios';
 
+import { Inertia } from '@inertiajs/inertia';
+
 const props = defineProps({
     canLogin: {
         type: Boolean,
@@ -86,17 +88,16 @@ function submitForm(event) {
     const name = event.target.name.value;
     const age = event.target.age.value;
 
-    axios.post('/api/store-form', {
+    Inertia.post('/api/store-form', {
         email: email,
         phone: phone,
         name: name,
         age: age,
         id: props.id,
-    }).then(response => {
-        console.log('Información enviada:', response.data);
-        alert('Información enviada correctamente. Revisa tu correo para verificar tu email.');
-    }).catch(error => {
-        console.error('Error enviando la información:', error);
+    }, {
+        onFinish: () => {
+            Inertia.visit('/gracias');
+        }
     });
 }
 </script>

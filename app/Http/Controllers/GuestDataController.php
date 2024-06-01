@@ -29,11 +29,12 @@ class GuestDataController extends Controller
 
         $totalRegistros = GuestData::count();
         $soData = $this->dataSO($totalRegistros);
-
+        $emailData = $this->dataEmails($totalRegistros);
         return Inertia::render('Guests/Index', [
             'guests'            => $guests,
             'totalRegistros'    => $totalRegistros,
-            'soData'            => $soData
+            'soData'            => $soData,
+            'emailData'         => $emailData,
         ]);
     }
 
@@ -126,7 +127,7 @@ class GuestDataController extends Controller
             Notification::route('mail', $guestData->email)->notify(new VerifyEmail($verificationUrl, $guestData->id));
         }
 
-        return response()->json(['message' => 'Form data recorded successfully.']);
+        return redirect()->route('gracias');
     }
 
     public function verifyEmail(Request $request)
@@ -144,7 +145,7 @@ class GuestDataController extends Controller
             }
             $guestData->save();
 
-            return response()->json(['message' => 'Email verified successfully.']);
+            return redirect()->route('gracias');
         }
 
         return response()->json(['message' => 'Invalid verification link.'], 400);
@@ -277,7 +278,19 @@ class GuestDataController extends Controller
         return [$os, $device, $cookies];
     }
 
+    private function dataEmails($totalRegistros){
+        $verificados = GuestData::whereNotNull('email_verified_at')->count();
+        $abiertos = GuestData::where('email_abierto', 'S')->count();
+        $sinVerificar =  $totalRegistros - $verificados;
+        $sinAbrir = $totalRegistros - $abiertos;
 
+        return [
+            'verificados' => $verificados,
+            'abiertos' => $abiertos,
+            'sinVerificar' => $sinVerificar,
+            'sinAbrir' => $sinAbrir,
+        ];
+    }
 
 
     public function enviarEmail($email, $nombre)

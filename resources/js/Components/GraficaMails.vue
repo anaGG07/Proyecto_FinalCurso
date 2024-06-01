@@ -26,7 +26,7 @@ export default defineComponent({
                 labels: Object.keys(this.datos),
                 datasets: [
                     {
-                        backgroundColor: ['#28a745', '#dc3545', '#007bff', '#343a40'],
+                        backgroundColor: ['#28a745', '#007bff',  '#343a40','#dc3545',],
                         data: Object.values(this.datos),
                     }
                 ]
