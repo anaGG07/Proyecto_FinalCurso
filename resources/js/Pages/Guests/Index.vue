@@ -39,7 +39,7 @@ function getOSAbbreviation(osName) {
         // Puedes agregar más sistemas operativos y sus abreviaturas aquí
     };
 
-    return osAbbreviations[osName] || 'UNKNOWN';
+    return osAbbreviations[osName] || '???';
 };
 function textoCookies(cookieValue) {
     const cookieInterpretations = {
@@ -60,7 +60,7 @@ function getBrowserAbbreviation(browserName) {
         'IE': 'IE'
     };
 
-    return browserAbbreviations[browserName] || 'UNKNOWN';
+    return browserAbbreviations[browserName] || '???';
 };
 
 function maskEmail(email) {
@@ -119,7 +119,7 @@ function maskPhoneNumber(phoneNumber) {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                        <div class="mt-4">
+                        <div class="mt-4 overflow-x-auto">
                             <table class="table-auto w-full">
                                 <thead class="text-xs font-semibold uppercase text-gray-400 dark:text-white bg-gray-50 dark:bg-gray-700">
                                     <tr>
